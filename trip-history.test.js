@@ -1,0 +1,24 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { DatabaseSync } from 'node:sqlite';
+import { initializeHistory,recordTrip } from './trip-history.js';
+test('Successful routes save distance and exact duration; old rows are preserved',()=>{
+  const db=new DatabaseSync(':memory:');
+  db.exec("CREATE TABLE trip_history (id INTEGER PRIMARY KEY,place_id TEXT NOT NULL,label TEXT NOT NULL,created_at TEXT NOT NULL); INSERT INTO trip_history VALUES(1,'old','Old trip','2026-10-06T00:00:00Z')");
+  initializeHistory(db);initializeHistory(db);
+  assert.equal(recordTrip(db,'destination','New trip',{routes:[{distanceMeters:12500,duration:'3750s'}]}),true);
+  const rows=db.prepare('SELECT * FROM trip_history ORDER BY id').all();
+  assert.equal(rows[0].estimated_km,null);
+  assert.equal(rows[1].estimated_km,12.5);
+  assert.equal(rows[1].estimated_minutes,62.5);
+  assert.equal(rows[1].actual_km,null);
+  assert.equal(recordTrip(db,'old','Old trip',{routes:[{distanceMeters:5000,duration:'600s'}]},1),true);
+  const updated=db.prepare('SELECT * FROM trip_history WHERE id=1').get();
+  assert.equal(updated.estimated_km,5);
+  assert.equal(updated.estimated_minutes,10);
+  assert.equal(updated.created_at,'2026-10-06T00:00:00Z');
+  assert.equal(recordTrip(db,'wrong-place','Wrong trip',{routes:[{distanceMeters:5000,duration:'600s'}]},1),false);
+  assert.equal(recordTrip(db,'destination','Failed trip',{routes:[]}),false);
+  assert.equal(db.prepare('SELECT COUNT(*) AS n FROM trip_history').get().n,2);
+  db.close();
+});

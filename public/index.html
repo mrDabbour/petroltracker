@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Spikta • Dashboard</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+<header><b>▦ SPIKTA</b><span>YOUR EVERYDAY PROGRESS</span><nav aria-label="Spikta"><a href="/dashboard" aria-current="page">Dashboard</a> · <a href="/">Road Trip</a> · <a href="/history">History</a> · <a href="/car">My Car</a></nav><time id="clock"></time></header>
+<main>
+<div class="intro"><span class="badge">YOU GOT THIS</span><h1>Your starting point.<br><em>A little further today.</em></h1><p>Your current baseline and progress, in one little desktop.</p></div>
+<section class="window" aria-label="Progress dashboard">
+<div class="titlebar"><span>▣ dashboard.exe</span><span aria-hidden="true">─ □ ×</span></div>
+<div class="workspace">
+<div class="controls">
+<span class="eyebrow">01 / YOUR CURRENT BASELINE</span><h2>Starting Point</h2><p>Record where you are in Spikta today.</p>
+<form id="baseline-form"><label for="baseline">My current baseline / progress</label><input id="baseline" placeholder="What is your starting point today?" maxlength="500" required><button class="wide" type="submit">SAVE STARTING POINT</button></form>
+<p id="status" role="status" aria-live="polite">Ready.</p>
+</div>
+<div class="scene"><span class="eyebrow">02 / YOUR PROGRESS</span><h2>Your current snapshot</h2>
+<div class="origin"><span>STARTING POINT</span><strong id="current-baseline">No baseline recorded yet.</strong></div>
+<div class="metrics"><div><span>STATUS</span><strong id="progress-state">Not set</strong></div><div><span>LAST UPDATED</span><strong id="updated">—</strong></div></div>
+<p class="small">Saved in this browser on this device.</p>
+</div></div>
+<div class="statusbar"><span>● READY FOR YOUR NEXT STEP</span><span>SPIKTA V1</span></div>
+</section><footer>Small steps, everyday progress.</footer>
+</main><script src="/app.js" type="module"></script>
+</body></html>

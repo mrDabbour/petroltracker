@@ -1,0 +1,1 @@
+{"name":"spikta","private":true,"type":"module","scripts":{"start":"node --env-file-if-exists=.env server.js","check":"node --check server.js && node --check public/app.js && node --check public/road-trip.js && node --check google-maps.js","test":"node --test errors.test.js google-maps.test.js trip-history.test.js daily.test.js"}}
